@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THS PARENT CONNECT</title>
+  <script>
+    const authUserRaw = sessionStorage.getItem('auth_user');
+    if (!authUserRaw) {
+      window.location.href = 'Login/index.html';
+    }
+  </script>
+   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="smsblastingver8.css">
+</head>
+
+
+ <body class="h-full m-0 p-0 overflow-x-hidden lg:overflow-hidden">
+  <div id="app-container" class="min-h-screen lg:h-full h-auto w-full flex flex-col" style="background: #F8FAFF;"
+>
+
+<!-- Title Bar / Header -->
+   <header class="relative flex items-center justify-between px-6 py-4 border-b" style="background: #1E40AF
+; border-color: #1E40AF;">
+    <div class="flex items-center gap-3">
+      
+      <!-- School Logo --> <img src="ths.jpg" alt="Taal High School Logo" loading="lazy" class="w-10 h-10 rounded-lg object-cover" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #2E7D32
+, #8b5cf6)'; this.alt='Logo unavailable';">
+<div>
+      <h1 id="app-title" class="text-base sm:text-lg font-semibold tracking-wide" style="color: white;">Taal High School</h1>
+     </div>
+    </div>
+    <h2 id="app-center-title" class="absolute left-1/2 -translate-x-1/2 text-2xl sm:text-3xl font-bold tracking-wide" style="color: white;">Parent Connect</h2>
+    <div style="position: relative;">
+      <button
+        id="menu-btn"
+        type="button"
+        class="menu-trigger w-10 h-10 rounded-xl flex items-center justify-center transition-all"
+        style="background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff;"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </button>
+      <div
+        id="menu-dropdown"
+        class="absolute right-0 mt-2 w-72 rounded-2xl p-3 shadow-xl"
+        style="display: none; z-index: 120;"
+      >
+        <div id="menu-profile-btn" class="w-full text-left flex items-center gap-3 px-2 py-2.5 rounded-xl transition-all" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(148, 163, 184, 0.25);">
+          <button id="menu-user-avatar" type="button" class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all hover:opacity-90" style="background: linear-gradient(135deg, #2563EB, #4F46E5); color: #ffffff; border: 2px solid rgba(191, 219, 254, 0.9); box-shadow: inset 0 0 0 1px rgba(30, 64, 175, 0.35);" aria-label="Change profile picture">U</button>
+          <div class="min-w-0 flex-1">
+            <p class="text-sm font-semibold truncate flex items-center gap-2" style="color: #f8fafc;"><span id="menu-user-name" class="truncate">User</span><button id="edit-username-btn" type="button" class="w-5 h-5 rounded-md flex items-center justify-center transition-all hover:opacity-90" style="background: rgba(255,255,255,0.14); border: 1px solid rgba(191,219,254,0.5); color: #DBEAFE;" aria-label="Edit username"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg></button></p>
+            <p id="menu-user-role" class="text-xs truncate" style="color: #bfdbfe;">Teacher</p>
+          </div>
+        </div>
+        <button
+          id="menu-inbox-btn"
+          type="button"
+          class="w-full mt-3 px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-between transition-all menu-action-btn"
+          style="color: #f8fafc;"
+        >
+          <span class="flex items-center gap-2">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 12H16L14 15H10L8 12H2"></path>
+              <path d="M5.45 5.11L2 12V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-7l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+            </svg>
+            Inbox
+          </span>
+          <span id="inbox-total-unread" class="hidden px-1.5 py-0.5 rounded-full text-[10px] font-bold" style="background: #DC2626; color: #ffffff;">0</span>
+        </button>
+        <button
+          id="activity-log-btn"
+          type="button"
+          class="w-full mt-2 px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all menu-action-btn"
+          style="color: #f8fafc;"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9"></circle>
+            <polyline points="12 7 12 12 15 14"></polyline>
+          </svg>
+          <span>Activity Log</span>
+        </button>
+        <button
+          id="menu-accounts-btn"
+          type="button"
+          class="w-full mt-2 px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all menu-action-btn"
+          style="color: #f8fafc; display: none;"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <line x1="20" y1="8" x2="20" y2="14"></line>
+            <line x1="23" y1="11" x2="17" y2="11"></line>
+          </svg>
+          <span>Manage Accounts</span>
+        </button>
+        <button
+          id="menu-logout-btn"
+          type="button"
+          class="w-full mt-2 px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all menu-action-btn"
+          style="color: #FEE2E2; background: rgba(220, 38, 38, 0.2); border-color: rgba(248, 113, 113, 0.45);"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Log Out</span>
+        </button>
+      </div>
+    </div>
+
+</header>
+
+<!-- Main Content Area -->
+   <main class="flex-1 flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden">
+
+<!-- Left Panel - Compose Message -->
+    <section class="w-full lg:w-1/2 p-4 sm:p-6 flex flex-col border-b lg:border-b-0 lg:border-r" style="border-color: #334155;">
+
+<!-- Recipients Section -->
+     <div class="mb-5"><label class="block text-sm font-medium mb-3" style="color: #94a3b8;"> <span class="flex items-center gap-2">
+        <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />  <circle cx="9" cy="7" r="4" /> <path d="M23 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg> Recipients </span> </label> 
+
+<!-- Recipients Options (Radio Button) -->
+      <div class="space-y-3 mb-4"><label class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all hover:opacity-90" style="background: #ffffff; border: 1px solid #BFDBFE;"> <input type="radio" name="recipient-type" value="all" id="radio-all" checked class="w-4 h-4 accent-indigo-500" style="cursor: pointer;"> 
+      <span class="text-sm font-medium" style="color: #1E3A8A;"> All Students </span> </label> <label class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all hover:opacity-90" style="background: #ffffff; border: 1px solid #BFDBFE;"> <input type="radio" name="recipient-type" value="grade" id="radio-grade" class="w-4 h-4 accent-indigo-500" style="cursor: pointer;"> <span class="text-sm font-medium" style="color: #1E3A8A;">By Grade Level</span> </label>
+      </div>
+
+<!-- Recipients Selection -->
+      <div id="grade-selection" class="space-y-3 hidden">
+       <div><label class="block text-xs font-medium mb-2" style="color: #64748b;">Select Grade</label> <select id="grade-dropdown" class="w-full px-4 py-3 rounded-lg text-sm transition-all input-focus cursor-pointer" style="background: #ffffff; border: 1px solid #BFDBFE; color: #1E3A8A;"> <option value="">Choose a grade...</option> <option value="11">Grade 11</option> <option value="12">Grade 12</option> </select>
+       </div>
+       <div id="section-container" class="hidden"><label class="block text-xs font-medium mb-2" style="color: #64748b;">Select Section</label> <select id="section-dropdown" class="w-full px-4 py-3 rounded-lg text-sm transition-all input-focus cursor-pointer" style="background: #ffffff; border: 1px solid #BFDBFE; color: #1E3A8A;"> <option value="">Choose a section...</option> </select>
+       </div>
+      </div>
+      
+  <!-- Selected Recipients Summary -->
+      <div id="recipients-summary" class="mt-3 p-3 rounded-lg flex items-center justify-between gap-2" style="background: #DBEAFE; border: 1px solid #93C5FD;">
+       <div class="flex items-center gap-2">
+        <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="#1E3A8A" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="8.5" cy="7" r="4" /> <line x1="20" y1="8" x2="20" y2="14" /> <line x1="23" y1="11" x2="17" y2="11" />
+        </svg><span id="summary-text" class="text-xs font-medium" style="color: #1E3A8A;">All Senior High School Students Selected</span>
+       </div><button id="manage-contacts-btn" class="px-3 py-1.5 rounded text-xs font-medium transition-all hover:opacity-90" style="background: #2563EB; color: #FAFAFA; display: inline-block;"> Manage Contacts </button>
+      </div>
+     </div>
+     
+     <!-- Message Compose -->
+     <div class="flex-1 flex flex-col mb-5"><div class="flex items-center justify-between mb-2"><label class="block text-sm font-medium" style="color: #94a3b8;"> <span class="flex items-center gap-2">
+        <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+        </svg> Compose Message </span> </label><button id="message-template-btn" type="button" class="px-3 py-1.5 rounded-md text-xs font-medium transition-all hover:opacity-90" style="background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E3A8A;">Templates</button></div>
+      <div class="flex-1 relative"><textarea id="message-input" maxlength="2000" placeholder="Type your message here..." class="w-full h-full px-4 py-3 rounded-lg text-sm resize-none transition-all input-focus" style="background: #ffffff; border: 1px solid #BFDBFE; color: #0F0F0F; min-height: 120px;"></textarea>
+       <div class="absolute bottom-3 right-3"><span id="char-count" class="text-xs" style="color: #64748b;">0/2000</span>
+       </div>
+      </div>
+     </div>
+     
+  <!-- Action Buttons -->
+    <div class="flex items-center gap-3"><button id="send-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg font-semibold text-sm text-white transition-all btn-primary" style="background: linear-gradient(135deg, #EC407A, #8b5cf6);">
+       <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13" /> <polygon points="22 2 15 22 11 13 2 9 22 2" />
+       </svg><span id="send-btn-text">Send Message</span> </button>
+     </div>
+    </section>
+    
+<!-- Right Panel - Message Log Contact List -->
+    <section id="right-panel" class="w-full lg:w-1/2 flex flex-col" style="background: #ffffff; position: relative;">
+
+<!-- Message Log View -->
+     <div id="message-log-view" class="flex flex-col h-full"class="">
+
+<!-- Log Header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b" style="border-color: #334155;">
+       <div class="flex items-center gap-3">
+        <h2 class="text-sm font-semibold" style="color: #1E3A8A;">Message Log</h2>
+       </div>
+       <div class="flex items-center gap-2">
+        <button id="select-log-btn" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-90" style="background: #EFF6FF; color: #1E3A8A; border: 1px solid #BFDBFE;">Select</button>
+        <button id="delete-log-btn" type="button" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-90" style="background: rgba(239, 68, 68, 0.12); color: #B91C1C; border: 1px solid rgba(239, 68, 68, 0.3);" disabled>Delete</button>
+       </div>
+      </div>
+      
+<!-- Stats Bar -->
+      <div class="grid grid-cols-3 gap-3 px-6 py-4 border-b" style="border-color: #334155;">
+       <div class="text-center cursor-pointer transition-opacity hover:opacity-80" id="filter-total">
+        <p class="text-lg font-bold" style="color: #0F0F0F;" id="stat-total">0</p>
+        <p class="text-xs font-medium" style="color: #374151;">Total Sent</p>
+       </div>
+       <div class="text-center cursor-pointer transition-opacity hover:opacity-80" id="filter-delivered">
+        <p class="text-lg font-bold" style="color: #22c55e;" id="stat-delivered">0</p>
+        <p class="text-xs font-medium" style="color: #374151;">Delivered</p>
+       </div>
+       <div class="text-center cursor-pointer transition-opacity hover:opacity-80" id="filter-failed">
+        <p class="text-lg font-bold" style="color: #ef4444;" id="stat-failed">0</p>
+        <p class="text-xs font-medium" style="color: #374151;">Failed</p>
+       </div>
+      </div>
+
+<!-- Log Entries -->
+      <div id="message-log" class="flex-1 overflow-y-auto px-4 py-3 space-y-2">
+      </div>
+
+<!-- Contact List View -->
+      <div id="contact-list-view" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(145deg, #f8fbff 0%, #eef4ff 55%, #f8fbff 100%); z-index: 50; flex-direction: column; animation: slideIn 0.3s ease-out;">
+
+<!-- Contact List Header -->
+       <div class="flex items-center justify-between px-6 py-4 border-b gap-4" style="border-color: #1E3A8A; background: #0B1F5E; backdrop-filter: blur(10px);">
+        <div class="flex flex-col gap-3">
+         <div class="flex items-center gap-3">
+          <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #EC407A, #8b5cf6); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M23 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          </div>
+          <h2 class="text-lg font-bold" style="color: #f1f5f9;">Contact Management</h2>
+         </div>
+        </div><button id="close-contacts-btn" class="px-4 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-80 hover:scale-105" style="background: rgba(255, 255, 255, 0.2); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.35);">Close</button>
+       </div>
+
+<!-- Contact Columns -->
+       <div id="contact-columns" class="flex-1 flex overflow-hidden">
+
+<!-- Students Column -->
+        <div id="students-column" class="flex-1 flex flex-col border-r" style="border-color: #BFDBFE;">
+         <div class="px-5 py-4 border-b" style="border-color: #93C5FD; background: #DBEAFE;">
+          <div class="flex items-center">
+           <div id="students-header-controls" class="flex items-center gap-2 w-full">
+            <div id="manage-tab-row" class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg" style="background: #EAF2FF; border: 1px solid #BFDBFE; width: fit-content;">
+             <button id="manage-tab-students" class="manage-tab active px-3 py-1.5 rounded-md text-xs font-semibold transition-all" type="button">Students</button>
+             <button id="manage-tab-parents" class="manage-tab px-3 py-1.5 rounded-md text-xs font-semibold transition-all" type="button">Parents</button>
+            </div>
+            <div class="flex items-center gap-2 ml-auto">
+             <button id="select-all-students-btn" class="px-3 py-2 rounded-lg text-xs font-semibold transition-all hover:opacity-90 hover:scale-105" style="background: #EAF2FF; color: #1E3A8A; border: 1px solid #93C5FD;">Select All</button><button id="load-students-btn" class="load-file-btn px-4 py-2 rounded-lg text-xs font-semibold transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);">
+             <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /> <polyline points="14 2 14 8 20 8" />
+             </svg> <span class="load-file-text">Load File</span> </button>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div id="students-list" class="flex-1 overflow-y-auto px-4 py-3" style="background: #FAFAFA;">
+          <div class="text-center py-8" style="color: #64748b; font-size: 13px;">
+           <svg width="48" height="48" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 12px; opacity: 0.5;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M23 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+           </svg> No students loaded yet<br><span style="font-size: 11px; opacity: 0.7;">Click "Load File" or "Add Student"</span>
+          </div>
+         </div>
+        </div>
+  
+  <!-- Parents Column -->
+        <div id="parents-column" class="flex-1 flex flex-col">
+         <div class="px-5 py-4 border-b" style="border-color: #93C5FD; background: #DBEAFE;">
+          <div class="flex items-center">
+           <div id="parents-header-controls" class="flex items-center gap-2 w-full">
+            <div class="flex items-center gap-2 ml-auto">
+             <button id="select-all-parents-btn" class="px-3 py-2 rounded-lg text-xs font-semibold transition-all hover:opacity-90 hover:scale-105" style="background: #EAF2FF; color: #1E3A8A; border: 1px solid #93C5FD;">Select All</button><button id="load-parents-btn" class="load-file-btn px-4 py-2 rounded-lg text-xs font-semibold transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);">
+             <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /> <polyline points="14 2 14 8 20 8" />
+             </svg> <span class="load-file-text">Load File</span> </button>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div id="parents-list" class="flex-1 overflow-y-auto px-4 py-3" style="background: #FAFAFA;">
+          <div class="text-center py-8" style="color: #64748b; font-size: 13px;">
+           <svg width="48" height="48" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 12px; opacity: 0.5;"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="8.5" cy="7" r="4" /> <polyline points="17 11 19 13 23 9" />
+           </svg> No parents loaded yet<br><span style="font-size: 11px; opacity: 0.7;">Click "Load File" or "Add Parent"</span>
+          </div>
+         </div>
+        </div>
+       </div>
+
+<!-- Add Contact Form (Hidden by default) -->
+       <div id="add-contact-form" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 rounded-xl shadow-2xl" style="background: linear-gradient(145deg, #ffffff, #f3f8ff); border: 1px solid #BFDBFE; display: none; z-index: 100; min-width: 360px; backdrop-filter: blur(20px);">
+        <div class="flex items-center justify-between mb-5">
+         <h3 class="text-base font-bold" style="color: #1E3A8A;" id="form-title">Add Contact</h3>
+         <div style="width: 28px; height: 28px; background: linear-gradient(135deg, #2563EB, #1E3A8A); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+          <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="8.5" cy="7" r="4" /> <line x1="20" y1="8" x2="20" y2="14" /> <line x1="23" y1="11" x2="17" y2="11" />
+          </svg>
+         </div>
+        </div>
+        <div class="space-y-4">
+         <div><label class="block text-xs font-semibold mb-2" style="color: #1E3A8A;">Full Name</label> <input type="text" id="contact-name-input" class="w-full px-4 py-3 rounded-lg text-sm input-focus font-medium" style="background: #ffffff; border: 1px solid #93C5FD; color: #0F0F0F;" placeholder="e.g Juan Dela Cruz">
+         </div>
+         <div><label class="block text-xs font-semibold mb-2" style="color: #1E3A8A;">Phone Number</label> <input type="tel" id="contact-phone-input" class="w-full px-4 py-3 rounded-lg text-sm input-focus font-medium" style="background: #ffffff; border: 1px solid #93C5FD; color: #0F0F0F;" placeholder="+63 XXX XXX XXX">
+         </div>
+         <input type="hidden" id="contact-grade-input" value="">
+         <input type="hidden" id="contact-section-input" value="">
+         <div class="flex gap-3 pt-3"><button id="save-contact-btn" class="flex-1 px-5 py-3 rounded-lg text-sm font-semibold transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #2563EB, #1E3A8A); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);">Save Contact</button> <button id="cancel-contact-btn" class="flex-1 px-5 py-3 rounded-lg text-sm font-semibold transition-all hover:opacity-80" style="background: #EAF2FF; color: #1E3A8A; border: 1px solid #BFDBFE;"> Cancel </button>
+         </div>
+        </div>
+       </div>
+
+<!-- Bottom Action Buttons -->
+       <div class="px-6 py-4 border-t flex gap-3" style="border-color: #BFDBFE; background: #F5F9FF; backdrop-filter: blur(10px);">
+        <div id="student-actions" class="flex flex-1 gap-3"><button id="add-student-btn" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold text-sm transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19" /> <line x1="5" y1="12" x2="19" y2="12" />
+         </svg> Add Student </button> <button id="delete-student-btn" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold text-sm transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #B91C1C, #991B1B); color: white; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3);">
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+         </svg> Delete </button></div> <div id="parent-actions" class="flex flex-1 gap-3" style="display: none;"><button id="add-parent-btn" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold text-sm transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19" /> <line x1="5" y1="12" x2="19" y2="12" />
+         </svg> Add Parent </button> <button id="delete-parent-btn" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold text-sm transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #B91C1C, #991B1B); color: white; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3);">
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+         </svg> Delete </button></div>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main>
+
+<!-- Schedule Modal removed -->
+  <div id="template-overlay" class="hidden" aria-hidden="true" style="position: fixed; inset: 0; z-index: 140;">
+    <div id="template-backdrop" style="position: absolute; inset: 0; background: rgba(15, 23, 42, 0.45);"></div>
+    <section class="rounded-2xl overflow-hidden" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(980px, 92vw); max-height: 85vh; background: #ffffff; border: 1px solid #BFDBFE; box-shadow: 0 18px 48px rgba(15, 23, 42, 0.28); display: flex; flex-direction: column;">
+      <header class="px-5 py-4 border-b flex items-center justify-between" style="background: #1E3A8A; border-color: #1E40AF;">
+        <h3 class="text-base font-bold" style="color: #ffffff;">Message Templates</h3>
+        <button id="close-template-btn" type="button" class="w-9 h-9 rounded-lg flex items-center justify-center transition-all hover:opacity-85" style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.35); color: #ffffff;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </header>
+      <div class="p-4 space-y-3 overflow-y-auto">
+        <div class="flex items-center gap-2">
+          <select id="template-select" class="flex-1 px-3 py-2 rounded-lg text-sm" style="background: #ffffff; border: 1px solid #BFDBFE; color: #1E3A8A;"></select>
+          <button id="template-apply-btn" type="button" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all hover:opacity-90" style="background: #2563EB; color: #ffffff;">Use</button>
+        </div>
+        <input id="template-name-input" type="text" placeholder="Template name" class="w-full px-3 py-2.5 rounded-lg text-sm" style="background: #ffffff; border: 1px solid #BFDBFE; color: #0F0F0F;">
+        <textarea id="template-body-input" placeholder="Template message..." class="w-full px-4 py-3 rounded-lg text-sm resize-y" style="min-height: 220px; background: #ffffff; border: 1px solid #BFDBFE; color: #0F0F0F;"></textarea>
+        <div class="flex items-center gap-2">
+          <button id="template-save-btn" type="button" class="px-4 py-2.5 rounded-lg text-sm font-semibold transition-all hover:opacity-90" style="background: #EAF2FF; color: #1E3A8A; border: 1px solid #93C5FD;">Add Template</button>
+          <button id="template-update-btn" type="button" class="px-4 py-2.5 rounded-lg text-sm font-semibold transition-all hover:opacity-90" style="background: #EAF2FF; color: #1E3A8A; border: 1px solid #93C5FD;">Update</button>
+          <button id="template-delete-btn" type="button" class="px-4 py-2.5 rounded-lg text-sm font-semibold transition-all hover:opacity-90" style="background: rgba(239, 68, 68, 0.12); color: #B91C1C; border: 1px solid rgba(239, 68, 68, 0.3);">Delete</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="inbox-overlay" class="inbox-overlay hidden" aria-hidden="true">
+    <div id="inbox-backdrop" class="inbox-backdrop"></div>
+    <section
+      id="inbox-panel"
+      class="inbox-panel rounded-2xl overflow-hidden"
+      style="background: #ffffff; border: 1px solid #BFDBFE;"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Received Messages"
+    >
+      <header class="px-5 py-4 border-b flex items-center justify-between" style="background: #1E3A8A; border-color: #1E40AF;">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background: rgba(255, 255, 255, 0.18);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2">
+              <path d="M22 12H16L14 15H10L8 12H2"></path>
+              <path d="M5.45 5.11L2 12V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-7l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-base font-bold" style="color: #ffffff;">Received Messages</h3>
+            <p class="text-xs" style="color: #DBEAFE;">Incoming SMS Inbox</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            id="select-inbox-btn"
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-90"
+            style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.35); color: #ffffff;"
+          >
+            Select
+          </button>
+          <button
+            id="delete-inbox-btn"
+            type="button"
+            class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-90"
+            style="background: rgba(220, 38, 38, 0.2); border: 1px solid rgba(252, 165, 165, 0.45); color: #ffffff;"
+            disabled
+          >
+            Delete
+          </button>
+          <span id="inbox-unread-pill" class="hidden px-2 py-1 rounded-full text-[11px] font-bold" style="background: #DC2626; color: #ffffff;">0 unread</span>
+          <button
+            id="close-inbox-btn"
+            type="button"
+            class="w-9 h-9 rounded-lg flex items-center justify-center transition-all hover:opacity-85"
+            style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.35); color: #ffffff;"
+            aria-label="Close inbox"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div id="inbox-layout" class="flex min-h-0 flex-1">
+        <aside class="inbox-left border-r" style="border-color: #BFDBFE; background: #F8FAFF;">
+          <div class="p-4 border-b" style="border-color: #BFDBFE;">
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input
+                id="inbox-search-input"
+                type="text"
+                placeholder="Search name or number"
+                class="w-full pl-9 pr-3 py-2.5 rounded-lg text-sm"
+                style="background: #ffffff; border: 1px solid #BFDBFE; color: #0F0F0F;"
+              >
+            </div>
+          </div>
+          <div id="inbox-loading-state" class="hidden p-4 text-sm" style="color: #475569;">Loading conversations...</div>
+          <div id="inbox-conversation-list" class="inbox-conversation-list"></div>
+        </aside>
+
+        <section class="inbox-right flex flex-col min-h-0" style="background: #ffffff;">
+          <div id="inbox-thread-empty" class="flex-1 flex items-center justify-center text-center px-6">
+            <div>
+              <p class="text-sm font-semibold" style="color: #1E3A8A;">No messages selected</p>
+              <p class="text-xs mt-1" style="color: #64748b;">Choose a conversation to view messages.</p>
+            </div>
+          </div>
+
+          <div id="inbox-thread-view" class="hidden flex-1 min-h-0 flex flex-col">
+            <header class="px-5 py-3 border-b flex items-center justify-between" style="border-color: #BFDBFE; background: #EFF6FF;">
+              <div>
+                <p id="inbox-thread-name" class="text-sm font-bold" style="color: #1E3A8A;">-</p>
+                <p id="inbox-thread-phone" class="text-xs" style="color: #64748b;">-</p>
+              </div>
+              <span id="inbox-thread-last" class="text-xs" style="color: #475569;">-</span>
+            </header>
+
+            <div id="inbox-thread-messages" class="flex-1 overflow-y-auto px-4 py-4 space-y-3"></div>
+
+            <form id="inbox-reply-form" class="p-4 border-t flex items-center gap-3" style="border-color: #BFDBFE; background: #F8FAFF;">
+              <input
+                id="inbox-reply-input"
+                type="text"
+                placeholder="Type your reply..."
+                class="flex-1 px-4 py-2.5 rounded-lg text-sm"
+                style="background: #ffffff; border: 1px solid #BFDBFE; color: #0F0F0F;"
+              >
+              <button
+                id="inbox-reply-send"
+                type="submit"
+                class="px-4 py-2.5 rounded-lg text-sm font-semibold transition-all hover:opacity-90"
+                style="background: linear-gradient(135deg, #2563EB, #1E40AF); color: #ffffff;"
+              >
+                Send
+              </button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </section>
+  </div>
+  <div id="activity-overlay" class="activity-overlay hidden" aria-hidden="true">
+    <div id="activity-backdrop" class="activity-backdrop"></div>
+    <section
+      id="activity-panel"
+      class="activity-panel rounded-2xl overflow-hidden"
+      style="background: #ffffff; border: 1px solid #BFDBFE;"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Activity Log"
+    >
+      <header class="px-5 py-4 border-b flex items-center justify-between" style="background: #1E3A8A; border-color: #1E40AF;">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background: rgba(255, 255, 255, 0.18);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2">
+              <circle cx="12" cy="12" r="9"></circle>
+              <polyline points="12 7 12 12 15 14"></polyline>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-base font-bold" style="color: #ffffff;">Activity Log</h3>
+            <p class="text-xs" style="color: #DBEAFE;">Recent account actions</p>
+          </div>
+        </div>
+        <button
+          id="close-activity-btn"
+          type="button"
+          class="w-9 h-9 rounded-lg flex items-center justify-center transition-all hover:opacity-85"
+          style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.35); color: #ffffff;"
+          aria-label="Close activity log"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </header>
+      <div class="px-4 py-3 border-b flex items-center gap-2" style="background: #EFF6FF; border-color: #BFDBFE;">
+        <button type="button" class="activity-filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold transition-all" data-filter="all">All Activities</button>
+        <button type="button" class="activity-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all" data-filter="login">Logins</button>
+        <button type="button" class="activity-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all" data-filter="role">Role Changes</button>
+      </div>
+      <div id="activity-log-list" class="activity-log-list p-4 space-y-2"></div>
+    </section>
+  </div>
+  <div id="accounts-overlay" class="hidden" aria-hidden="true" style="position: fixed; inset: 0; z-index: 145;">
+    <div id="accounts-backdrop" style="position: absolute; inset: 0; background: rgba(15, 23, 42, 0.45);"></div>
+    <section class="rounded-2xl overflow-hidden" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(880px, 92vw); max-height: 82vh; background: #ffffff; border: 1px solid #BFDBFE; box-shadow: 0 18px 48px rgba(15, 23, 42, 0.28); display: flex; flex-direction: column;">
+      <header class="px-5 py-4 border-b flex items-center justify-between" style="background: #1E3A8A; border-color: #1E40AF;">
+        <h3 class="text-base font-bold" style="color: #ffffff;">Account Manager</h3>
+        <button id="close-accounts-btn" type="button" class="w-9 h-9 rounded-lg flex items-center justify-center transition-all hover:opacity-85" style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.35); color: #ffffff;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </header>
+      <div id="accounts-list" class="p-4 space-y-2 overflow-y-auto"></div>
+    </section>
+  </div>
+  <div id="error-overlay" class="hidden" aria-hidden="true" style="position: fixed; inset: 0; z-index: 150;">
+    <div id="error-backdrop" style="position: absolute; inset: 0; background: rgba(15, 23, 42, 0.45);"></div>
+    <section class="rounded-2xl overflow-hidden" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(520px, 92vw); background: #ffffff; border: 1px solid #BFDBFE; box-shadow: 0 18px 48px rgba(15, 23, 42, 0.28);">
+      <header class="px-4 py-3 border-b flex items-center justify-between" style="background: #B91C1C; border-color: #991B1B;">
+        <h3 id="error-title" class="text-sm font-bold" style="color: #ffffff;">Error</h3>
+        <button id="close-error-btn" type="button" class="w-8 h-8 rounded-md flex items-center justify-center transition-all hover:opacity-85" style="background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); color: #ffffff;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </header>
+      <div class="p-4">
+        <p id="error-message" class="text-sm" style="color: #0F172A;"></p>
+      </div>
+    </section>
+  </div>
+  </div>
+    <script type="module" src="firebase.js"></script>
+    <script src="smsblastingver8.js" defer></script>
+</body>
+</html>

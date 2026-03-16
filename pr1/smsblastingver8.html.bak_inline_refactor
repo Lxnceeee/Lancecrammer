@@ -1,0 +1,1195 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THS PARENT CONNECT</title>
+  <script>
+    if (sessionStorage.getItem('auth_once') !== '1') {
+      window.location.href = 'login.html';
+    } else {
+      sessionStorage.removeItem('auth_once');
+    }
+  </script>
+   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
+    
+    /* Subtle animations */
+    .fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .pulse-dot {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    @keyframes slideIn {
+      from { 
+        opacity: 0; 
+        transform: translateX(20px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateX(0); 
+      }
+    }
+    
+    /* Focus states */
+    .input-focus:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);
+    }
+    
+    /* Button hover effect */
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px -8px rgba(99, 102, 241, 0.6);
+    }
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* Mobile-first adjustments while preserving desktop layout */
+    @media (max-width: 1024px) {
+      header {
+        padding: 12px 16px !important;
+      }
+
+      #app-title {
+        font-size: 16px !important;
+      }
+
+      #recipients-summary {
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+
+      #manage-contacts-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      #right-panel,
+      #message-log-view {
+        min-height: 56vh;
+      }
+
+      #message-log {
+        min-height: 36vh;
+      }
+
+      /* Ensure contact management covers full viewport on mobile */
+      #contact-list-view {
+        position: fixed !important;
+        inset: 0 !important;
+        z-index: 90 !important;
+      }
+
+      #contact-list-view > .flex-1.flex.overflow-hidden {
+        flex-direction: column;
+      }
+
+      #contact-list-view .border-r {
+        border-right: none !important;
+        border-bottom: 1px solid #BFDBFE !important;
+      }
+
+      #contact-list-view .border-t.flex.gap-3 {
+        flex-wrap: wrap;
+      }
+
+      #contact-list-view .border-t.flex.gap-3 > button {
+        flex: 1 1 calc(50% - 0.5rem);
+      }
+    }
+  </style>
+
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+
+
+ <body class="h-full m-0 p-0 overflow-x-hidden lg:overflow-hidden">
+  <div id="app-container" class="min-h-screen lg:h-full h-auto w-full flex flex-col" style="background: #F5F1EB;"
+>
+
+<!-- Title Bar / Header -->
+   <header class="flex items-center justify-between px-6 py-4 border-b" style="background: #1E40AF
+; border-color: #1E40AF;">
+    <div class="flex tems-center gap-3">
+      
+      <!-- School Logo --> <img src="ths.jpg" alt="Taal High School Logo" loading="lazy" class="w-10 h-10 rounded-lg object-cover" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #2E7D32
+, #8b5cf6)'; this.alt='Logo unavailable';">
+<div>
+      <h1 id="app-title" class="text-lg font-semibold" style="color: white;">Taal High School</h1>
+      <p class="text-xs" style="color: white;">Parent Connect</p>
+     </div>
+    </div>
+
+<!-- Window Controls (decorative) -->
+    <div class="flex items-center gap-2"><button class="w-3 h-3 rounded-full transition-opacity hover:opacity-80" style="background: #fbbf24;"></button> <button class="w-3 h-3 rounded-full transition-opacity hover:opacity-80" style="background: #22c55e;"></button> <button class="w-3 h-3 rounded-full transition-opacity hover:opacity-80" style="background: #ef4444;"></button>
+    </div>
+
+</header>
+
+<!-- Main Content Area -->
+   <main class="flex-1 flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden">
+
+<!-- Left Panel - Compose Message -->
+    <section class="w-full lg:w-1/2 p-4 sm:p-6 flex flex-col border-b lg:border-b-0 lg:border-r" style="border-color: #334155;">
+
+<!-- Recipients Section -->
+     <div class="mb-5"><label class="block text-sm font-medium mb-3" style="color: #94a3b8;"> <span class="flex items-center gap-2">
+        <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />  <circle cx="9" cy="7" r="4" /> <path d="M23 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg> Recipients </span> </label> 
+
+<!-- Recipients Options (Radio Button) -->
+      <div class="space-y-3 mb-4"><label class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all hover:opacity-90" style="background: #FAFAFA; border: 1px solid #CD999A;"> <input type="radio" name="recipient-type" value="all" id="radio-all" checked class="w-4 h-4 accent-indigo-500" style="cursor: pointer;"> 
+      <span class="text-sm font-medium" style="color: #8E204D;"> All Students </span> </label> <label class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all hover:opacity-90" style="background: #FAFAFA; border: 1px solid #CD999A;"> <input type="radio" name="recipient-type" value="grade" id="radio-grade" class="w-4 h-4 accent-indigo-500" style="cursor: pointer;"> <span class="text-sm font-medium" style="color: #8E204D;">By Grade Level</span> </label>
+      </div>
+
+<!-- Recipients Selection -->
+      <div id="grade-selection" class="space-y-3 hidden">
+       <div><label class="block text-xs font-medium mb-2" style="color: #94a3b8;">Select Grade</label> <select id="grade-dropdown" class="w-full px-4 py-3 rounded-lg text-sm transition-all input-focus cursor-pointer" style="background: #FAFAFA; border: 1px solid #CD999A; color: #8E204D;"> <option value="">Choose a grade...</option> <option value="11">Grade 11</option> <option value="12">Grade 12</option> </select>
+       </div>
+       <div id="section-container" class="hidden"><label class="block text-xs font-medium mb-2" style="color: #94a3b8;">Select Section</label> <select id="section-dropdown" class="w-full px-4 py-3 rounded-lg text-sm transition-all input-focus cursor-pointer" style="background: #FAFAFA; border: 1px solid #CD999A; color: #8E204D;"> <option value="">Choose a section...</option> </select>
+       </div>
+      </div>
+      
+  <!-- Selected Recipients Summary -->
+      <div id="recipients-summary" class="mt-3 p-3 rounded-lg flex items-center justify-between gap-2" style="background: #DBEAFE; border: 1px solid #93C5FD;">
+       <div class="flex items-center gap-2">
+        <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="#1E3A8A" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="8.5" cy="7" r="4" /> <line x1="20" y1="8" x2="20" y2="14" /> <line x1="23" y1="11" x2="17" y2="11" />
+        </svg><span id="summary-text" class="text-xs font-medium" style="color: #1E3A8A;">All Senior High School Students Selected</span>
+       </div><button id="manage-contacts-btn" class="px-3 py-1.5 rounded text-xs font-medium transition-all hover:opacity-90" style="background: orange; color: #FAFAFA; display: inline-block;"> Manage Contacts </button>
+      </div>
+     </div>
+     
+     <!-- Message Compose -->
+     <div class="flex-1 flex flex-col mb-5"><label class="block text-sm font-medium mb-2" style="color: #94a3b8;"> <span class="flex items-center gap-2">
+        <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+        </svg> Compose Message </span> </label>
+      <div class="flex-1 relative"><textarea id="message-input" placeholder="Type your message here..." class="w-full h-full px-4 py-3 rounded-lg text-sm resize-none transition-all input-focus" style="background: #FAFAFA; border: 1px solid #CD999A; color: #0F0F0F; min-height: 120px;"></textarea>
+       <div class="absolute bottom-3 right-3"><span id="char-count" class="text-xs" style="color: #64748b;">87/160</span>
+       </div>
+      </div>
+     </div>
+     
+  <!-- Action Buttons -->
+    <div class="flex items-center gap-3"><button id="send-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg font-semibold text-sm text-white transition-all btn-primary" style="background: linear-gradient(135deg, #EC407A, #8b5cf6);">
+       <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13" /> <polygon points="22 2 15 22 11 13 2 9 22 2" />
+       </svg><span id="send-btn-text">Send Message</span> </button>
+     </div>
+    </section>
+    
+<!-- Right Panel - Message Log Contact List -->
+    <section id="right-panel" class="w-full lg:w-1/2 flex flex-col" style="background: #FFFAF0; position: relative;">
+
+<!-- Message Log View -->
+     <div id="message-log-view" class="flex flex-col h-full"class="">
+
+<!-- Log Header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b" style="border-color: #334155;">
+       <div class="flex items-center gap-3">
+        <h2 class="text-sm font-semibold" style="color: #006400;">Message Log</h2>
+       </div>
+      </div>
+      
+<!-- Stats Bar -->
+      <div class="grid grid-cols-4 gap-3 px-6 py-4 border-b" style="border-color: #334155;">
+       <div class="text-center cursor-pointer transition-opacity hover:opacity-80" id="filter-total">
+        <p class="text-lg font-bold" style="color: #0F0F0F;" id="stat-total">0</p>
+        <p class="text-xs font-medium" style="color: #374151;">Total Sent</p>
+       </div>
+       <div class="text-center cursor-pointer transition-opacity hover:opacity-80" id="filter-delivered">
+        <p class="text-lg font-bold" style="color: #22c55e;" id="stat-delivered">0</p>
+        <p class="text-xs font-medium" style="color: #374151;">Delivered</p>
+       </div>
+       <div class="text-center cursor-pointer transition-opacity hover:opacity-80" id="filter-pending">
+        <p class="text-lg font-bold" style="color: #fbbf24;" id="stat-pending">0</p></p>
+        <p class="text-xs font-medium" style="color: #374151;">Pending</p>
+       </div>
+       <div class="text-center cursor-pointer transition-opacity hover:opacity-80" id="filter-failed">
+        <p class="text-lg font-bold" style="color: #ef4444;" id="stat-failed">0</p>
+        <p class="text-xs font-medium" style="color: #374151;">Failed</p>
+       </div>
+      </div>
+
+<!-- Log Entries -->
+      <div id="message-log" class="flex-1 overflow-y-auto px-4 py-3 space-y-2">
+      </div>
+
+<!-- Contact List View -->
+      <div id="contact-list-view" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(145deg, #f8fbff 0%, #eef4ff 55%, #f8fbff 100%); z-index: 50; flex-direction: column; animation: slideIn 0.3s ease-out;">
+
+<!-- Contact List Header -->
+       <div class="flex items-center justify-between px-6 py-4 border-b" style="border-color: #1E3A8A; background: #0B1F5E; backdrop-filter: blur(10px);">
+        <div class="flex items-center gap-3">
+         <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #EC407A, #8b5cf6); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M23 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+         </div>
+         <h2 class="text-lg font-bold" style="color: #f1f5f9;">Contact Management</h2>
+        </div><button id="close-contacts-btn" class="px-4 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-80 hover:scale-105" style="background: rgba(255, 255, 255, 0.2); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.35);">Close</button>
+       </div>
+
+<!-- Contact Columns -->
+       <div class="flex-1 flex overflow-hidden">
+
+<!-- Students Column -->
+        <div class="flex-1 flex flex-col border-r" style="border-color: #BFDBFE;">
+         <div class="px-5 py-4 border-b" style="border-color: #BFDBFE; background: #DBEAFE;">
+          <div class="flex items-center justify-between">
+           <h3 class="text-base font-bold" style="color: #1E3A8A;">Students</h3>
+           <div class="flex items-center gap-2">
+            <button id="select-all-students-btn" class="px-3 py-2 rounded-lg text-xs font-semibold transition-all hover:opacity-90 hover:scale-105" style="background: #EAF2FF; color: #1E3A8A; border: 1px solid #93C5FD;">Select All</button><button id="load-students-btn" class="px-4 py-2 rounded-lg text-xs font-semibold transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);">
+             <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /> <polyline points="7 10 12 15 17 10" /> <line x1="12" y1="15" x2="12" y2="3" />
+             </svg> Load File </button>
+           </div>
+          </div>
+         </div>
+         <div id="students-list" class="flex-1 overflow-y-auto px-4 py-3" style="background: #FAFAFA;">
+          <div class="text-center py-8" style="color: #64748b; font-size: 13px;">
+           <svg width="48" height="48" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 12px; opacity: 0.5;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M23 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+           </svg> No students loaded yet<br><span style="font-size: 11px; opacity: 0.7;">Click "Load File" or "Add Student"</span>
+          </div>
+         </div>
+        </div>
+  
+  <!-- Parents Column -->
+        <div class="flex-1 flex flex-col">
+         <div class="px-5 py-4 border-b" style="border-color: #BFDBFE; background: #DBEAFE;">
+          <div class="flex items-center justify-between">
+           <h3 class="text-base font-bold" style="color: #1E3A8A;">Parents</h3>
+           <div class="flex items-center gap-2">
+            <button id="select-all-parents-btn" class="px-3 py-2 rounded-lg text-xs font-semibold transition-all hover:opacity-90 hover:scale-105" style="background: #EAF2FF; color: #1E3A8A; border: 1px solid #93C5FD;">Select All</button><button id="load-parents-btn" class="px-4 py-2 rounded-lg text-xs font-semibold transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);">
+             <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /> <polyline points="7 10 12 15 17 10" /> <line x1="12" y1="15" x2="12" y2="3" />
+             </svg> Load File </button>
+           </div>
+          </div>
+         </div>
+         <div id="parents-list" class="flex-1 overflow-y-auto px-4 py-3" style="background: #FAFAFA;">
+          <div class="text-center py-8" style="color: #64748b; font-size: 13px;">
+           <svg width="48" height="48" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 12px; opacity: 0.5;"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="8.5" cy="7" r="4" /> <polyline points="17 11 19 13 23 9" />
+           </svg> No parents loaded yet<br><span style="font-size: 11px; opacity: 0.7;">Click "Load File" or "Add Parent"</span>
+          </div>
+         </div>
+        </div>
+       </div>
+
+<!-- Add Contact Form (Hidden by default) -->
+       <div id="add-contact-form" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 rounded-xl shadow-2xl" style="background: linear-gradient(145deg, #ffffff, #f3f8ff); border: 1px solid #BFDBFE; display: none; z-index: 100; min-width: 360px; backdrop-filter: blur(20px);">
+        <div class="flex items-center justify-between mb-5">
+         <h3 class="text-base font-bold" style="color: #1E3A8A;" id="form-title">Add Contact</h3>
+         <div style="width: 28px; height: 28px; background: linear-gradient(135deg, #2563EB, #1E3A8A); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+          <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /> <circle cx="8.5" cy="7" r="4" /> <line x1="20" y1="8" x2="20" y2="14" /> <line x1="23" y1="11" x2="17" y2="11" />
+          </svg>
+         </div>
+        </div>
+        <div class="space-y-4">
+         <div><label class="block text-xs font-semibold mb-2" style="color: #1E3A8A;">Full Name</label> <input type="text" id="contact-name-input" class="w-full px-4 py-3 rounded-lg text-sm input-focus font-medium" style="background: #ffffff; border: 1px solid #93C5FD; color: #0F0F0F;" placeholder="e.g Juan Dela Cruz">
+         </div>
+         <div><label class="block text-xs font-semibold mb-2" style="color: #1E3A8A;">Phone Number</label> <input type="tel" id="contact-phone-input" class="w-full px-4 py-3 rounded-lg text-sm input-focus font-medium" style="background: #ffffff; border: 1px solid #93C5FD; color: #0F0F0F;" placeholder="+63 XXX XXX XXX">
+         </div>
+         <input type="hidden" id="contact-grade-input" value="">
+         <input type="hidden" id="contact-section-input" value="">
+         <div class="flex gap-3 pt-3"><button id="save-contact-btn" class="flex-1 px-5 py-3 rounded-lg text-sm font-semibold transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #2563EB, #1E3A8A); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);">Save Contact</button> <button id="cancel-contact-btn" class="flex-1 px-5 py-3 rounded-lg text-sm font-semibold transition-all hover:opacity-80" style="background: #EAF2FF; color: #1E3A8A; border: 1px solid #BFDBFE;"> Cancel </button>
+         </div>
+        </div>
+       </div>
+
+<!-- Bottom Action Buttons -->
+       <div class="px-6 py-4 border-t flex gap-3" style="border-color: #BFDBFE; background: #F5F9FF; backdrop-filter: blur(10px);"><button id="add-student-btn" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold text-sm transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19" /> <line x1="5" y1="12" x2="19" y2="12" />
+         </svg> Add Student </button> <button id="delete-student-btn" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold text-sm transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #B91C1C, #991B1B); color: white; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3);">
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+         </svg> Delete </button> <button id="add-parent-btn" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold text-sm transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19" /> <line x1="5" y1="12" x2="19" y2="12" />
+         </svg> Add Parent </button> <button id="delete-parent-btn" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold text-sm transition-all hover:opacity-90 hover:scale-105" style="background: linear-gradient(135deg, #B91C1C, #991B1B); color: white; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3);">
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+         </svg> Delete </button>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main>
+
+<!-- Schedule Modal removed -->
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      app_title: 'Taal High School',
+      send_button_text: 'Send Message'
+    };
+
+// Recipient selection logic
+    const radioAll = document.getElementById('radio-all');
+    const radioGrade = document.getElementById('radio-grade');
+    const gradeSelection = document.getElementById('grade-selection');
+    const gradeDropdown = document.getElementById('grade-dropdown');
+    const sectionContainer = document.getElementById('section-container');
+    const sectionDropdown = document.getElementById('section-dropdown');
+    const summaryText = document.getElementById('summary-text');
+    const contactGradeInput = document.getElementById('contact-grade-input');
+    const contactSectionInput = document.getElementById('contact-section-input');
+    const studentContacts = [];
+    const parentContacts = [];
+    const STORAGE_KEY = 'ths_contacts_v1';
+
+    // Toggle grade selection visibility
+    radioAll.addEventListener('change', function() {
+      if (this.checked) {
+        gradeSelection.classList.add('hidden');
+        sectionContainer.classList.add('hidden');
+        gradeDropdown.value = '';
+        sectionDropdown.value = '';
+        updateSummary();
+        renderContacts();
+        // When All Students is selected, return to Message Log
+    
+        showMessageLog();
+      }
+    });
+
+    radioGrade.addEventListener('change', function() {
+      if (this.checked) {
+        gradeSelection.classList.remove('hidden');
+        updateSummary();
+        renderContacts();
+      }
+    });
+
+    // Show section dropdown when grade is selected
+    gradeDropdown.addEventListener('change', function() {
+      if (this.value) {
+        sectionContainer.classList.remove('hidden');
+        updateSectionOptions(this.value);
+      } else {
+        sectionContainer.classList.add('hidden');
+        sectionDropdown.value = '';
+      }
+      updateSummary();
+      renderContacts();
+    });
+    
+    // Update section options based on grade
+    function getSectionOptions(grade) {
+      if (grade === '11') {
+        return [
+          { value: 'gas', label: 'GAS' },
+          { value: 'abm', label: 'ABM' },
+          { value: 'stem', label: 'STEM' },
+          { value: 'ce', label: 'CE' },
+          { value: 'cp', label: 'CP' },
+          { value: 'he1', label: 'HE-1' },
+          { value: 'he2', label: 'HE-2' },
+          { value: 'humms1', label: 'HUMMS-1' },
+          { value: 'humms2', label: 'HUMMS-2' },
+          { value: 'humms3', label: 'HUMMS-3' },
+          { value: 'humms4', label: 'HUMMS-4' }
+        ];
+      }
+      if (grade === '12') {
+        return [
+          { value: 'gas', label: 'GAS' },
+          { value: 'abm', label: 'ABM' },
+          { value: 'stem', label: 'STEM' },
+          { value: 'ce', label: 'CE' },
+          { value: 'cp1', label: 'CP-1' },
+          { value: 'cp2', label: 'CP-2' },
+          { value: 'he1', label: 'HE-1' },
+          { value: 'he2', label: 'HE-2' },
+          { value: 'humms1', label: 'HUMMS-1' },
+          { value: 'humms2', label: 'HUMMS-2' },
+          { value: 'humms3', label: 'HUMMS-3' },
+          { value: 'humms4', label: 'HUMMS-4' }
+        ];
+      }
+      return [];
+    }
+
+    function getSectionLabel(grade, value) {
+      if (!value) return '';
+      const match = getSectionOptions(grade).find(opt => opt.value === value);
+      return match ? match.label : value.toUpperCase();
+    }
+
+    function updateSectionOptions(grade) {
+      sectionDropdown.innerHTML = '<option value="">Choose a section...</option><option value="all">All</option>';
+      getSectionOptions(grade).forEach(opt => {
+        sectionDropdown.innerHTML += `<option value="${opt.value}">${opt.label}</option>`;
+      });
+    }
+
+    function updateContactSectionOptions(grade) {
+      contactSectionInput.innerHTML = '<option value="">Select section...</option>';
+      getSectionOptions(grade).forEach(opt => {
+        contactSectionInput.innerHTML += `<option value="${opt.value}">${opt.label}</option>`;
+      });
+    }
+
+// Update summary when section changes
+    sectionDropdown.addEventListener('change', function() {
+      updateSummary();
+      renderContacts();
+    });
+
+    // Update summary text based on selections
+    function getAllContacts() {
+      return [...studentContacts, ...parentContacts];
+    }
+
+    function getSelectedContacts() {
+      return getAllContacts().filter(contact => contact.selected);
+    }
+
+    function filterContactsBySelection(contacts) {
+      if (!radioGrade.checked) {
+        return contacts;
+      }
+
+      const grade = gradeDropdown.value;
+      const section = sectionDropdown.value;
+      if (!grade || !section) {
+        return [];
+      }
+
+      if (section === 'all') {
+        return contacts.filter(c => c.grade === grade);
+      }
+
+      return contacts.filter(c => c.grade === grade && c.section === section);
+    }
+
+    function normalizePhone(phone) {
+      let value = (phone || '').trim();
+      if (!value) return '';
+
+      // Keep only digits and an optional leading plus.
+      value = value.replace(/[^\d+]/g, '');
+      if (value.startsWith('+')) {
+        value = '+' + value.slice(1).replace(/\D/g, '');
+      } else {
+        value = value.replace(/\D/g, '');
+      }
+
+      // Convert common PH formats to +63.
+      if (value.startsWith('+63')) {
+        return '+63' + value.slice(3);
+      }
+      if (value.startsWith('63')) {
+        return '+' + value;
+      }
+      if (value.startsWith('0')) {
+        return '+63' + value.slice(1);
+      }
+      if (value.startsWith('9') && value.length === 10) {
+        return '+63' + value;
+      }
+
+      return value;
+    }
+
+    function applyContactSummaryOverride() {
+      if (radioAll.checked) {
+        summaryText.textContent = `All Students - ${studentContacts.length} students`;
+        return;
+      }
+
+      if (radioGrade.checked) {
+        const grade = gradeDropdown.value;
+        const section = sectionDropdown.value;
+        if (!grade || !section) return;
+
+        const studentsInSelection = section === 'all'
+          ? studentContacts.filter(c => c.grade === grade)
+          : studentContacts.filter(c => c.grade === grade && c.section === section);
+
+        const sectionLabel = section === 'all'
+          ? 'ALL'
+          : (sectionDropdown.options[sectionDropdown.selectedIndex]?.text || section.toUpperCase());
+
+        summaryText.textContent = `Gr${grade} ${sectionLabel} - ${studentsInSelection.length} students`;
+      }
+    }
+
+    function updateSummary() {
+      const manageBtn = document.getElementById('manage-contacts-btn');
+      
+      if (radioAll.checked) {
+        summaryText.textContent = 'All Senior High School Students Selected';
+        manageBtn.style.display = 'inline-block';
+      } else if (radioGrade.checked) {
+        const grade = gradeDropdown.value;
+        const section = sectionDropdown.value;
+        
+        if (!grade) {
+          summaryText.textContent = 'Please select a grade level';
+          manageBtn.style.display = 'inline-block';
+        } else if (!section) {
+          summaryText.textContent = `Grade ${grade} - Please select a section`;
+          manageBtn.style.display = 'inline-block';
+        } else if (section === 'all') {
+          summaryText.textContent = `All Grade ${grade} Students Selected`;
+          manageBtn.style.display = 'inline-block';
+        } else {
+          const sectionText = sectionDropdown.options[sectionDropdown.selectedIndex].text;
+          summaryText.textContent = `Grade ${grade} - ${sectionText} Selected`;
+          manageBtn.style.display = 'inline-block';
+        }
+      }
+
+      applyContactSummaryOverride();
+    }
+
+    // Character count functionality
+    const messageInput = document.getElementById('message-input');
+    const charCount = document.getElementById('char-count');
+    
+    messageInput.addEventListener('input', () => {
+      const length = messageInput.value.length;
+      const segments = Math.ceil(length / 160) || 1;
+      const remaining = segments * 160 - length;
+      charCount.textContent = `${length}/${segments * 160}`;
+      charCount.style.color = length > 160 ? '#fbbf24' : '#64748b';
+    });
+
+// Send button simulation
+    const sendBtn = document.getElementById('send-btn');
+    sendBtn.addEventListener('click', async () => {
+      const message = messageInput.value.trim();
+      if (!message) {
+        alert('Please type a message before sending.');
+        return;
+      }
+
+      let recipients = getSelectedContacts();
+      if (recipients.length === 0 && radioAll.checked) {
+        recipients = getAllContacts();
+      }
+      if (recipients.length === 0 && radioGrade.checked) {
+        recipients = filterContactsBySelection(getAllContacts());
+      }
+
+      if (recipients.length === 0) {
+        alert('Please add contacts and select at least one recipient.');
+        showContactList();
+        return;
+      }
+
+      const phones = recipients
+        .map(c => normalizePhone(c.phone))
+        .filter(p => p.length >= 7);
+
+      if (phones.length === 0) {
+        alert('No valid phone numbers found in selected contacts.');
+        showContactList();
+        return;
+      }
+
+      const originalContent = sendBtn.innerHTML;
+      sendBtn.innerHTML = `
+        <svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="32"/>
+        </svg>
+        Sending...
+      `;
+      sendBtn.disabled = true;
+      sendBtn.style.opacity = '0.7';
+      
+      try {
+        const res = await fetch('/sms/bulk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phones, message })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || 'Failed to send messages');
+        }
+
+        sendBtn.innerHTML = originalContent;
+        sendBtn.disabled = false;
+        sendBtn.style.opacity = '1';
+        
+        // Update stats
+        const totalEl = document.getElementById('stat-total');
+        const deliveredEl = document.getElementById('stat-delivered');
+        totalEl.textContent = parseInt(totalEl.textContent) + phones.length;
+        deliveredEl.textContent = parseInt(deliveredEl.textContent) + phones.length;
+        
+        // Add new log entry
+        addLogEntry();
+      } catch (err) {
+        sendBtn.innerHTML = originalContent;
+        sendBtn.disabled = false;
+        sendBtn.style.opacity = '1';
+        alert(`Send failed: ${err.message}`);
+      }
+    });
+
+    // Add log entry function
+    function addLogEntry() {
+      const log = document.getElementById('message-log');
+      const entry = document.createElement('div');
+      entry.className = 'flex items-start gap-3 p-3 rounded-lg fade-in';
+      entry.style.cssText = 'background: rgba(34, 197, 94, 0.08); border-left: 3px solid #22c55e;';
+      entry.setAttribute('data-status', 'delivered');
+      
+      // Get recipient info for log
+      const recipientInfo = summaryText.textContent || 'All Students';
+      
+      entry.innerHTML = `
+        <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(34, 197, 94, 0.2);">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-sm font-medium" style="color: #0F0F0F;">${recipientInfo}</span>
+            <span class="text-xs" style="color: #374151;">Just now</span>
+          </div>
+          <p class="text-xs truncate" style="color: #374151;">${messageInput.value.substring(0, 50)}...</p>
+          <span class="inline-block mt-1 px-2 py-0.5 rounded text-xs" style="background: rgba(34, 197, 94, 0.15); color: #22c55e;">Delivered</span>
+        </div>
+      `;
+      log.insertBefore(entry, log.firstChild);
+    }
+
+// Message filtering functionality
+    let currentFilter = 'all';
+
+    function filterMessages(status) {
+      currentFilter = status;
+      const allMessages = document.querySelectorAll('#message-log > div[data-status]');
+      
+      allMessages.forEach(message => {
+        if (status === 'all' || message.getAttribute('data-status') === status) {
+          message.style.display = 'flex';
+        } else {
+          message.style.display = 'none';
+        }
+      });
+    }
+
+    // Add click handlers for filters
+    document.getElementById('filter-total').addEventListener('click', () => filterMessages('all'));
+    document.getElementById('filter-delivered').addEventListener('click', () => filterMessages('delivered'));
+    document.getElementById('filter-pending').addEventListener('click', () => filterMessages('pending'));
+    document.getElementById('filter-failed').addEventListener('click', () => filterMessages('failed'));
+
+    // Contact Management
+    let currentContactType = '';
+    let currentView = 'messageLog'; // Track current view state
+
+    function saveContacts() {
+      const payload = {
+        students: studentContacts,
+        parents: parentContacts
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    }
+
+    function loadContacts() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        (data.students || []).forEach(c => {
+          studentContacts.push({
+            id: c.id || Date.now().toString() + Math.random(),
+            name: c.name || '',
+            phone: c.phone || '',
+            grade: c.grade || '',
+            section: c.section || '',
+            selected: false,
+            showPhone: false
+          });
+        });
+        (data.parents || []).forEach(c => {
+          parentContacts.push({
+            id: c.id || Date.now().toString() + Math.random(),
+            name: c.name || '',
+            phone: c.phone || '',
+            grade: c.grade || '',
+            section: c.section || '',
+            selected: false,
+            showPhone: false
+          });
+        });
+      } catch (e) {
+        console.warn('Failed to load contacts from storage', e);
+      }
+    }
+
+    // View switching system - preserves DOM, only toggles visibility
+    function showMessageLog() {
+      currentView = 'messageLog';
+      const contactListView = document.getElementById('contact-list-view');
+      
+      if (contactListView) {
+        contactListView.style.display = 'none';
+      }
+      
+      console.log('Showing Message Log');
+    }
+
+    function showContactList() {
+      currentView = 'contactList';
+      const contactListView = document.getElementById('contact-list-view');
+      
+      if (contactListView) {
+        contactListView.style.display = 'flex';
+      }
+      
+      console.log('Showing Contact List');
+      renderContacts();
+    }
+
+    // Toggle between Message Log and Contact List - using event delegation
+    document.addEventListener('click', (e) => {
+      // Check if the clicked element is the manage contacts button
+      if (e.target && e.target.id === 'manage-contacts-btn') {
+        e.preventDefault();
+        console.log('Manage Contacts button clicked');
+        showContactList();
+      }
+      
+      // Check if the clicked element is the close contacts button
+      if (e.target && e.target.id === 'close-contacts-btn') {
+        e.preventDefault();
+        console.log('Close Contacts button clicked');
+        showMessageLog();
+      }
+    });
+
+    // Add contact handlers
+    document.getElementById('add-student-btn').addEventListener('click', () => {
+      currentContactType = 'student';
+      document.getElementById('form-title').textContent = 'Add Student';
+      document.getElementById('contact-name-input').value = '';
+      document.getElementById('contact-phone-input').value = '';
+      if (radioGrade.checked && gradeDropdown.value && sectionDropdown.value) {
+        contactGradeInput.value = gradeDropdown.value;
+        updateContactSectionOptions(gradeDropdown.value);
+        contactSectionInput.value = sectionDropdown.value;
+        contactGradeInput.disabled = true;
+        contactSectionInput.disabled = true;
+      } else {
+        contactGradeInput.value = '';
+        updateContactSectionOptions('');
+        contactSectionInput.value = '';
+        contactGradeInput.disabled = false;
+        contactSectionInput.disabled = false;
+      }
+      document.getElementById('add-contact-form').style.display = 'block';
+    });
+
+    document.getElementById('add-parent-btn').addEventListener('click', () => {
+      currentContactType = 'parent';
+      document.getElementById('form-title').textContent = 'Add Parent';
+      document.getElementById('contact-name-input').value = '';
+      document.getElementById('contact-phone-input').value = '';
+      if (radioGrade.checked && gradeDropdown.value && sectionDropdown.value) {
+        contactGradeInput.value = gradeDropdown.value;
+        updateContactSectionOptions(gradeDropdown.value);
+        contactSectionInput.value = sectionDropdown.value;
+        contactGradeInput.disabled = true;
+        contactSectionInput.disabled = true;
+      } else {
+        contactGradeInput.value = '';
+        updateContactSectionOptions('');
+        contactSectionInput.value = '';
+        contactGradeInput.disabled = false;
+        contactSectionInput.disabled = false;
+      }
+      document.getElementById('add-contact-form').style.display = 'block';
+    });
+
+    document.getElementById('cancel-contact-btn').addEventListener('click', () => {
+      contactGradeInput.disabled = false;
+      contactSectionInput.disabled = false;
+      document.getElementById('add-contact-form').style.display = 'none';
+    });
+
+    contactGradeInput.addEventListener('change', () => {
+      updateContactSectionOptions(contactGradeInput.value);
+    });
+
+    document.getElementById('save-contact-btn').addEventListener('click', () => {
+      const name = document.getElementById('contact-name-input').value.trim();
+      const phone = document.getElementById('contact-phone-input').value.trim();
+      const grade = contactGradeInput.value || gradeDropdown.value || '';
+      const section = contactSectionInput.value || sectionDropdown.value || '';
+      
+      if (!name || !phone) {
+        return;
+      }
+      
+      const contact = {
+        id: Date.now().toString(),
+        name,
+        phone,
+        grade,
+        section,
+        selected: false,
+        showPhone: false
+      };
+      
+      if (currentContactType === 'student') {
+        studentContacts.push(contact);
+      } else {
+        parentContacts.push(contact);
+      }
+
+      contactGradeInput.disabled = false;
+      contactSectionInput.disabled = false;
+      document.getElementById('add-contact-form').style.display = 'none';
+      saveContacts();
+      renderContacts();
+    });
+
+    // Delete selected contacts
+    document.getElementById('delete-student-btn').addEventListener('click', () => {
+      for (let i = studentContacts.length - 1; i >= 0; i--) {
+        if (studentContacts[i].selected) {
+          studentContacts.splice(i, 1);
+        }
+      }
+      saveContacts();
+      renderContacts();
+    });
+
+    document.getElementById('delete-parent-btn').addEventListener('click', () => {
+      for (let i = parentContacts.length - 1; i >= 0; i--) {
+        if (parentContacts[i].selected) {
+          parentContacts.splice(i, 1);
+        }
+      }
+      saveContacts();
+      renderContacts();
+    });
+
+    // Load contacts from file
+    function selectAllVisibleContacts(type) {
+      const source = type === 'student' ? studentContacts : parentContacts;
+      const visible = filterContactsForView(source);
+      if (visible.length === 0) return;
+      visible.forEach(contact => {
+        contact.selected = true;
+      });
+      renderContacts();
+    }
+
+    document.getElementById('load-students-btn').addEventListener('click', () => {
+      loadContactsFromFile('student');
+    });
+
+    document.getElementById('load-parents-btn').addEventListener('click', () => {
+      loadContactsFromFile('parent');
+    });
+
+    document.getElementById('select-all-students-btn').addEventListener('click', () => {
+      selectAllVisibleContacts('student');
+    });
+
+    document.getElementById('select-all-parents-btn').addEventListener('click', () => {
+      selectAllVisibleContacts('parent');
+    });
+
+    function parseContactLine(line, fallbackName) {
+      const cleaned = line.trim().replace(/^\[/, '').replace(/\]$/, '').trim();
+      if (!cleaned) return null;
+
+      let name = '';
+      let phone = '';
+
+      // Supports:
+      // - James = 09123456789
+      // - James,09123456789
+      // - James|09123456789
+      // - 09123456789
+      const separators = ['=', ',', '|', '\t'];
+      const separator = separators.find(sep => cleaned.includes(sep));
+
+      if (separator) {
+        const parts = cleaned.split(separator);
+        name = (parts[0] || '').trim();
+        phone = parts.slice(1).join(separator).trim();
+      } else {
+        phone = cleaned;
+      }
+
+      const normalizedPhone = normalizePhone(phone || cleaned);
+      if (!normalizedPhone) return null;
+
+      return {
+        name: name || `Contact ${fallbackName}`,
+        phone: normalizedPhone
+      };
+    }
+
+    function loadContactsFromFile(type) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.txt,.csv';
+      
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const text = event.target.result;
+          const lines = text.split('\n');
+
+          const selectedGrade = radioGrade.checked ? gradeDropdown.value : '';
+          const selectedSection =
+            radioGrade.checked && sectionDropdown.value && sectionDropdown.value !== 'all'
+              ? sectionDropdown.value
+              : '';
+
+          let importedCount = 0;
+
+          lines.forEach((line, index) => {
+            const parsed = parseContactLine(line, (Date.now() + index).toString().slice(-4));
+            if (!parsed) return;
+
+            const contact = {
+              id: Date.now().toString() + Math.random(),
+              name: parsed.name,
+              phone: parsed.phone,
+              grade: selectedGrade || '',
+              section: selectedSection || '',
+              selected: false,
+              showPhone: false
+            };
+
+            if (type === 'student') {
+              studentContacts.push(contact);
+            } else {
+              parentContacts.push(contact);
+            }
+
+            importedCount += 1;
+          });
+
+          renderContacts();
+          saveContacts();
+          alert(`Imported ${importedCount} contact(s).`);
+        };
+        
+        reader.readAsText(file);
+      };
+      
+      input.click();
+    }
+
+    // Render contacts
+    function getContactFilterState() {
+      if (!radioGrade.checked) {
+        return { mode: 'all' };
+      }
+
+      const grade = gradeDropdown.value;
+      const section = sectionDropdown.value;
+      if (!grade || !section) {
+        return { mode: 'none' };
+      }
+
+      if (section === 'all') {
+        return { mode: 'grade', grade };
+      }
+
+      return { mode: 'section', grade, section };
+    }
+
+    function filterContactsForView(contacts) {
+      const state = getContactFilterState();
+      if (state.mode === 'all') return contacts;
+      if (state.mode === 'none') return [];
+      if (state.mode === 'grade') {
+        return contacts.filter(c => c.grade === state.grade);
+      }
+      return contacts.filter(c => c.grade === state.grade && c.section === state.section);
+    }
+
+    function renderContacts() {
+      const studentsList = document.getElementById('students-list');
+      const parentsList = document.getElementById('parents-list');
+      
+      studentsList.innerHTML = '';
+      parentsList.innerHTML = '';
+
+      const visibleStudents = filterContactsForView(studentContacts);
+      const visibleParents = filterContactsForView(parentContacts);
+
+      visibleStudents.forEach(contact => {
+        const el = createContactElement(contact, 'student');
+        studentsList.appendChild(el);
+      });
+      
+      visibleParents.forEach(contact => {
+        const el = createContactElement(contact, 'parent');
+        parentsList.appendChild(el);
+      });
+
+      updateSummary();
+    }
+
+    function createContactElement(contact, type) {
+      const div = document.createElement('div');
+      div.className = 'p-3 mb-2 rounded-lg transition-all cursor-pointer';
+      div.style.cssText = `
+        background: ${contact.selected ? 'linear-gradient(135deg, #DBEAFE, #BFDBFE)' : '#ffffff'};
+        border: 1px solid ${contact.selected ? '#2563EB' : '#BFDBFE'};
+        box-shadow: ${contact.selected ? '0 4px 12px rgba(37, 99, 235, 0.25)' : 'none'};
+      `;
+      
+      // Hover effect
+      div.addEventListener('mouseenter', () => {
+        if (!contact.selected) {
+          div.style.background = '#EFF6FF';
+          div.style.transform = 'translateX(4px)';
+        }
+      });
+      div.addEventListener('mouseleave', () => {
+        if (!contact.selected) {
+          div.style.background = '#ffffff';
+          div.style.transform = 'translateX(0)';
+        }
+      });
+      
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'text-sm font-semibold block';
+      nameSpan.style.color = '#1f2937';
+      nameSpan.textContent = contact.name;
+      
+      div.appendChild(nameSpan);
+
+      if (contact.grade || contact.section) {
+        const metaSpan = document.createElement('span');
+        metaSpan.className = 'text-xs block mt-1';
+        metaSpan.style.color = '#374151';
+        const sectionLabel = getSectionLabel(contact.grade, contact.section);
+        metaSpan.textContent = `${contact.grade ? 'G' + contact.grade : ''}${contact.grade && contact.section ? ' - ' : ''}${sectionLabel}`;
+        div.appendChild(metaSpan);
+      }
+      
+      if (contact.showPhone) {
+        const phoneInput = document.createElement('input');
+        phoneInput.type = 'tel';
+        phoneInput.value = contact.phone;
+        phoneInput.className = 'w-full mt-2 px-3 py-2 rounded-lg text-xs font-medium';
+        phoneInput.style.cssText = 'background: #ffffff; border: 1px solid #93C5FD; color: #0F0F0F; transition: all 0.2s;';
+        phoneInput.onclick = (e) => e.stopPropagation();
+        phoneInput.onfocus = function() {
+          this.style.borderColor = '#2563EB';
+          this.style.boxShadow = '0 0 0 2px rgba(37, 99, 235, 0.2)';
+        };
+        phoneInput.onblur = function() {
+          this.style.borderColor = '#93C5FD';
+          this.style.boxShadow = 'none';
+        };
+        phoneInput.onchange = () => {
+          contact.phone = phoneInput.value;
+          saveContacts();
+        };
+        div.appendChild(phoneInput);
+      }
+      
+      // Double click to show/edit phone
+      div.addEventListener('dblclick', (e) => {
+        e.stopPropagation();
+        contact.showPhone = !contact.showPhone;
+        renderContacts();
+      });
+      
+      // Click to select (single), Ctrl+Click for multiple selection
+      div.addEventListener('click', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          // Ctrl+Click: toggle selection (multi-select)
+          contact.selected = !contact.selected;
+        } else {
+          // Regular click: select only this contact (deselect others)
+          const contactList = type === 'student' ? studentContacts : parentContacts;
+          contactList.forEach(c => {
+            c.selected = (c.id === contact.id);
+          });
+        }
+        renderContacts();
+      });
+      
+      return div;
+    }
+
+
+
+    // Initialize view state on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Ensure Message Log is visible by default
+      showMessageLog();
+      loadContacts();
+      renderContacts();
+      
+      // Add data-status attributes to existing messages for filtering
+      const messageLog = document.getElementById('message-log');
+      if (messageLog) {
+        const messages = messageLog.querySelectorAll(':scope > div');
+        
+        messages.forEach((msg) => {
+          const statusText = msg.querySelector('span[class*="inline-block"]')?.textContent.toLowerCase() || '';
+          if (statusText.includes('delivered')) {
+            msg.setAttribute('data-status', 'delivered');
+          } else if (statusText.includes('pending')) {
+            msg.setAttribute('data-status', 'pending');
+          } else if (statusText.includes('failed')) {
+            msg.setAttribute('data-status', 'failed');
+          }
+        });
+      }
+    });
+  </script>
+ </body>
+</html>
+
+
+
+
+
+
