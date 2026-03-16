@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Personal Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body class="h-full">
+    <!-- ========================================
+         NAVIGATION BAR
+    ======================================== -->
+    <nav class="nav-glass sticky top-0 z-50 px-4 sm:px-6 py-3">
+      <div class="max-w-6xl mx-auto flex items-center justify-between">
+        <a href="index.html" class="text-lg sm:text-xl font-bold tracking-tight">Lance Kobe Legaspi</a>
+        <div class="flex flex-wrap items-center gap-1">
+          <a href="index.html" class="nav-link text-sm font-medium">
+            <i data-lucide="home" class="icon-14 icon-inline icon-gap-4"></i>Home
+          </a>
+          <a href="about.html" class="nav-link text-sm font-medium">
+            <i data-lucide="user" class="icon-14 icon-inline icon-gap-4"></i>About
+          </a>
+          <a href="projects.html" class="nav-link active-link text-sm font-medium">
+            <i data-lucide="briefcase" class="icon-14 icon-inline icon-gap-4"></i>Projects
+          </a>
+          <a href="contact.html" class="nav-link text-sm font-medium">
+            <i data-lucide="mail" class="icon-14 icon-inline icon-gap-4"></i>Contact
+          </a>
+        </div>
+        <button id="themeToggle" class="theme-toggle ml-3" type="button" aria-label="Toggle theme">
+          <span class="theme-toggle-knob">
+            <i data-lucide="moon" class="theme-icon theme-icon--moon"></i>
+            <i data-lucide="sun" class="theme-icon theme-icon--sun"></i>
+          </span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ========================================
+         PROJECTS & SKILLS
+    ======================================== -->
+    <main>
+      <section class="max-w-5xl mx-auto px-6 py-16 sm:py-20">
+        <div class="text-center mb-16">
+          <p class="text-sm font-medium uppercase tracking-widest mb-2 opacity-60">What I do</p>
+          <h1 class="text-3xl sm:text-5xl font-bold mb-4">Projects & Skills</h1>
+          <div class="section-divider w-20 h-1 rounded-full mx-auto"></div>
+        </div>
+
+        <!-- Skills -->
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+          <i data-lucide="zap" class="icon-20"></i>Skills
+        </h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-16">
+          <div class="surface-card card-hover shimmer rounded-xl p-4 text-center">
+            <div class="icon-pill-primary w-10 h-10 rounded-lg mx-auto mb-3 flex items-center justify-center">
+              <i data-lucide="code-2" class="icon-18"></i>
+            </div>
+            <p class="font-semibold text-sm mb-2">HTML</p>
+            <div class="skill-bar-bg w-full h-1.5 rounded-full overflow-hidden">
+              <div class="skill-bar-fill w-20 h-full rounded-full"></div>
+            </div>
+          </div>
+          <div class="surface-card card-hover shimmer rounded-xl p-4 text-center">
+            <div class="icon-pill-primary w-10 h-10 rounded-lg mx-auto mb-3 flex items-center justify-center">
+              <i data-lucide="file-json" class="icon-18"></i>
+            </div>
+            <p class="font-semibold text-sm mb-2">JavaScript</p>
+            <div class="skill-bar-bg w-full h-1.5 rounded-full overflow-hidden">
+              <div class="skill-bar-fill w-10 h-full rounded-full"></div>
+            </div>
+          </div>
+          <div class="surface-card card-hover shimmer rounded-xl p-4 text-center">
+            <div class="icon-pill-primary w-10 h-10 rounded-lg mx-auto mb-3 flex items-center justify-center">
+              <i data-lucide="palette" class="icon-18"></i>
+            </div>
+            <p class="font-semibold text-sm mb-2">CSS</p>
+            <div class="skill-bar-bg w-full h-1.5 rounded-full overflow-hidden">
+              <div class="skill-bar-fill w-10 h-full rounded-full"></div>
+            </div>
+          </div>
+          <div class="surface-card card-hover shimmer rounded-xl p-4 text-center">
+            <div class="icon-pill-primary w-10 h-10 rounded-lg mx-auto mb-3 flex items-center justify-center">
+              <i data-lucide="server" class="icon-18"></i>
+            </div>
+            <p class="font-semibold text-sm mb-2">Node.js</p>
+            <div class="skill-bar-bg w-full h-1.5 rounded-full overflow-hidden">
+              <div class="skill-bar-fill w-10 h-full rounded-full"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects -->
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+          <i data-lucide="folder-open" class="icon-20"></i>Featured Project
+        </h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <a href="../Parent%20Connect%20PR1/smsblastingver8.html" class="surface-card card-hover shimmer rounded-2xl p-6 block">
+            <div class="flex items-start justify-between mb-4">
+              <div class="icon-pill-secondary w-12 h-12 rounded-xl flex items-center justify-center">
+                <i data-lucide="message-square" class="icon-22"></i>
+              </div>
+              <i data-lucide="external-link" class="icon-16 opacity-40"></i>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Parent Connect PR1</h3>
+            <p class="text-sm opacity-70 mb-4 leading-relaxed">
+              SMS blasting tool for parent communication and quick announcements.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag-pill text-xs px-3 py-1 rounded-full font-medium">HTML</span>
+              <span class="tag-pill text-xs px-3 py-1 rounded-full font-medium">CSS</span>
+              <span class="tag-pill text-xs px-3 py-1 rounded-full font-medium">JavaScript</span>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      lucide.createIcons();
+
+      const themeToggle = document.getElementById('themeToggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.body.classList.add('theme-light');
+      }
+      themeToggle?.addEventListener('click', () => {
+        document.body.classList.toggle('theme-light');
+        const isLight = document.body.classList.contains('theme-light');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      });
+    </script>
+  </body>
+</html>
